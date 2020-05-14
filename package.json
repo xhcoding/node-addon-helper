@@ -1,0 +1,32 @@
+{
+  "name": "node-addon-helper",
+  "version": "0.0.1",
+  "author": {
+    "name": "xhcoding",
+    "email": "xhcoding@163.com"
+  },
+  "license": "MIT",
+  "description": "Some tool functions simplify the development of node addon",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url":  "https://github.com/xhcoding/node-addon-helper.git"
+  },
+  "keywords": [
+    "napi",
+    "nodejs",
+    "c",
+    "c++"
+  ],
+  "devDependencies": {
+    "cmake-js": "latest",
+    "mocha": "latest"
+  },
+  "dependencies": {
+    "node-addon-api": "latest"
+  },
+  "scripts": {
+    "pretest": "./node_modules/.bin/cmake-js configure && ./node_modules/.bin/cmake-js build",
+    "test": "mocha"
+  }
+}
