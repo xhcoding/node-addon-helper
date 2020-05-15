@@ -1,5 +1,5 @@
 const assert = require("assert");
-const argsCheck = require("../build/bin/args_check.node");
+const argsCheck = require("../build/bin/Release/args_check.node");
 
 describe(" check args length ", function() {
   it(" expect 4, actual 0", function() {
@@ -498,4 +498,23 @@ describe(" check args will to std::pair<const char*, size_t> ", function() {
   it(" expect ArrayBuffer|Buffer|TypedArray, actual Buffer", function() {
     assert.equal(argsCheck.checkInfoTypeCharPointer(Buffer.alloc(10)), null);
   });
+});
+
+describe(" check args will to function ", function() {
+  it(" expect Function, actual Undefined", function() {
+    try {
+      argsCheck.checkInfoTypeFunction(undefined);
+    } catch (err) {
+      assert.ok(err instanceof TypeError);
+      assert.equal(
+        err.message,
+        "Type of arg 0 is not matched! expect: Function, actual: Undefined"
+      );
+    }
+  });
+
+  it(" expect Function, actual Function", function() {
+    assert.equal(argsCheck.checkInfoTypeFunction(() => {}), null);
+  });
+
 });

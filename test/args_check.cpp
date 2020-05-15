@@ -12,6 +12,12 @@ Napi::Value ExportCheckInfoType(const Napi::CallbackInfo& info) {
     return info.Env().Null();
 }
 
+Napi::Value ExportCheckInfoFunction(const Napi::CallbackInfo& info) {
+    Nhelper::CheckInfoTypeIsFunction(info, 0);
+    return info.Env().Null();
+}
+
+
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
     exports.Set("checkInfoLength",
                 Napi::Function::New(env, ExportCheckInfoLength));
@@ -30,6 +36,9 @@ Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
 
     exports.Set("checkInfoTypeCharPointer",
                 Napi::Function::New(env, ExportCheckInfoType<char*>));
+
+    exports.Set("checkInfoTypeFunction",
+                Napi::Function::New(env, ExportCheckInfoFunction));
 
     return exports;
 }

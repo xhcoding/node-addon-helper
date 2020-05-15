@@ -1,14 +1,5 @@
 const assert = require("assert");
-const typeConverter = require("../build/bin/type_converter.node");
-
-function toBuffer(ab) {
-  var buf = new Buffer(ab.byteLength);
-  var view = new Uint8Array(ab);
-  for (var i = 0; i < buf.length; ++i) {
-    buf[i] = view[i];
-  }
-  return buf;
-}
+const typeConverter = require("../build/bin/Release/type_converter.node");
 
 describe(" type converter ", function() {
   it(" convert to bool ", function() {
