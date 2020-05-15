@@ -186,7 +186,7 @@ auto& MakeWorker(const Napi::CallbackInfo& info, void (*f)(Args...),
 }  // namespace details
 
 template <typename R, typename... Args>
-auto& CreateAsyncWorker(const Napi::CallbackInfo& info, R (*f)(Args...)) {
+inline auto& CreateAsyncWorker(const Napi::CallbackInfo& info, R (*f)(Args...)) {
     constexpr size_t num_args = sizeof...(Args);
     CheckInfoLength(info, num_args + 1);
     CheckInfoType<std::decay_t<Args>...>(info, 0, num_args);
@@ -195,7 +195,7 @@ auto& CreateAsyncWorker(const Napi::CallbackInfo& info, R (*f)(Args...)) {
 }
 
 template <typename... Args>
-auto& CreateAsyncWorker(const Napi::CallbackInfo& info, void (*f)(Args...)) {
+inline auto& CreateAsyncWorker(const Napi::CallbackInfo& info, void (*f)(Args...)) {
     constexpr size_t num_args = sizeof...(Args);
     CheckInfoLength(info, num_args + 1);
     CheckInfoType<std::decay_t<Args>...>(info, 0, num_args);

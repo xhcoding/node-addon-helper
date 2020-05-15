@@ -328,7 +328,7 @@ public:
 };
 
 
-std::string TypeName(const Napi::Value& value) {
+inline std::string TypeName(const Napi::Value& value) {
     if (value.IsUndefined()) {
         return "Undefined";
     } else if (value.IsNull()) {
@@ -351,6 +351,17 @@ std::string TypeName(const Napi::Value& value) {
         return "Object";
     }
     return "Unknow";
+}
+
+
+template <typename T>
+inline auto ToNativeValue(const Napi::Value& value) {
+    return TypeConverter<T>::ToNativeValue(value);
+}
+
+template <typename T>
+inline auto ToJSValue(Napi::Env env, const T& t) {
+    return TypeConverter<T>::ToJSValue(env, t);
 }
 
 

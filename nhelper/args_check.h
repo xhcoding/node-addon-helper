@@ -13,7 +13,7 @@ namespace Nhelper {
 
 
 
-void CheckInfoLength(const Napi::CallbackInfo& info, size_t expect_length) {
+inline void CheckInfoLength(const Napi::CallbackInfo& info, size_t expect_length) {
     if (info.Length() != expect_length) {
         std::stringstream ss;
         ss << "Wrong number of arguments! expect: " << expect_length
@@ -23,7 +23,7 @@ void CheckInfoLength(const Napi::CallbackInfo& info, size_t expect_length) {
 }
 
 template <typename T>
-void CheckInfoType(const Napi::CallbackInfo& info, size_t idx) {
+inline void CheckInfoType(const Napi::CallbackInfo& info, size_t idx) {
     if (!TypeConverter<std::decay_t<T>>::IsConvertible(info[idx])) {
         std::stringstream ss;
         ss << "Type of arg " << idx << " is not matched! expect: "
@@ -33,7 +33,7 @@ void CheckInfoType(const Napi::CallbackInfo& info, size_t idx) {
     }
 }
 
-void CheckInfoTypeIsFunction(const Napi::CallbackInfo& info, size_t idx) {
+inline void CheckInfoTypeIsFunction(const Napi::CallbackInfo& info, size_t idx) {
     if (!info[idx].IsFunction()) {
         std::stringstream ss;
         ss << "Type of arg " << idx << " is not matched! expect: Function"
@@ -67,7 +67,7 @@ struct CheckInfoTypeImpl<T, Rest...> {
 
 
 template <typename... Args>
-void CheckInfoType(const Napi::CallbackInfo& info, size_t start_idx, size_t end_idx) {
+inline avoid CheckInfoType(const Napi::CallbackInfo& info, size_t start_idx, size_t end_idx) {
     details::CheckInfoTypeImpl<Args...>::Check(info, start_idx, end_idx);
 }
 
