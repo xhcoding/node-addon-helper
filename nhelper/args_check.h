@@ -67,7 +67,7 @@ struct CheckInfoTypeImpl<T, Rest...> {
 
 
 template <typename... Args>
-inline avoid CheckInfoType(const Napi::CallbackInfo& info, size_t start_idx, size_t end_idx) {
+inline void CheckInfoType(const Napi::CallbackInfo& info, size_t start_idx, size_t end_idx) {
     details::CheckInfoTypeImpl<Args...>::Check(info, start_idx, end_idx);
 }
 
