@@ -26,19 +26,15 @@ Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
                     return Nhelper::CreateAsyncWorker(info, concat);
                 }));
 
-    exports.Set(
-            "returnVoid",
-            Napi::Function::New(env, [](const Napi::CallbackInfo& info) {
-                return Nhelper::CreateAsyncWorker(info, test);
-            }));
+    exports.Set("returnVoid",
+                Napi::Function::New(env, [](const Napi::CallbackInfo& info) {
+                    return Nhelper::CreateAsyncWorker(info, test);
+                }));
 
-
-    exports.Set(
-            "addThrow",
-            Napi::Function::New(env, [](const Napi::CallbackInfo& info) {
-                return Nhelper::CreateAsyncWorker(info, addThrow);
-            }));
-
+    exports.Set("addThrow",
+                Napi::Function::New(env, [](const Napi::CallbackInfo& info) {
+                    return Nhelper::CreateAsyncWorker(info, addThrow);
+                }));
 
     return exports;
 }
