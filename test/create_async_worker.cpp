@@ -11,7 +11,7 @@ std::string concat(const std::string& str1, const std::string& str2) {
 }
 
 int addThrow(int a, int b) {
-    throw Nhelper::WorkerExecuteException("add Throw");
+    throw Nhelper::MethodExecuteException("add Throw");
     return 0;
 }
 

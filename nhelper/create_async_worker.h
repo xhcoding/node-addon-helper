@@ -6,7 +6,7 @@
 #include "args_check.h"
 #include "fetch_info_item.h"
 #include "type_converter.h"
-#include "worker_execute_exception.h"
+#include "method_execute_exception.h"
 
 namespace Nhelper {
 
@@ -31,7 +31,7 @@ protected:
     void Execute() override {
         try {
             result_ = Apply(api_, args_);
-        } catch (const WorkerExecuteException& e) {
+        } catch (const MethodExecuteException& e) {
             SetError(e.what());
         } catch (...) {
             SetError("uncatched exception.");
@@ -73,7 +73,7 @@ protected:
     void Execute() override {
         try {
             Apply(api_, args_);
-        } catch (const WorkerExecuteException& e) {
+        } catch (const MethodExecuteException& e) {
             SetError(e.what());
         } catch (...) {
             SetError("uncatched exception.");
