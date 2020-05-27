@@ -59,6 +59,7 @@ struct CheckInfoTypeImpl<T, Rest...> {
             return;
         }
         CheckInfoType<T>(info, start_idx);
+        CheckInfoTypeImpl<Rest...>::Check(info, start_idx + 1, end_idx);
     }
 };
 
