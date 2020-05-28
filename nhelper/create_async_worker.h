@@ -1,6 +1,7 @@
 #pragma once
 
 #include <napi.h>
+#include <exception>
 
 #include "apply.h"
 #include "args_check.h"
@@ -31,7 +32,7 @@ protected:
     void Execute() override {
         try {
             result_ = Apply(api_, args_);
-        } catch (const MethodExecuteException& e) {
+        } catch (const std::exception& e) {
             SetError(e.what());
         } catch (...) {
             SetError("uncatched exception.");
@@ -73,7 +74,7 @@ protected:
     void Execute() override {
         try {
             Apply(api_, args_);
-        } catch (const MethodExecuteException& e) {
+        } catch (const std::exception& e) {
             SetError(e.what());
         } catch (...) {
             SetError("uncatched exception.");

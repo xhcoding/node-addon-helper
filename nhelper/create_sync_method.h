@@ -1,6 +1,7 @@
 #pragma once
 
 #include <napi.h>
+#include <exception>
 
 #include "args_check.h"
 #include "fetch_info_item.h"
@@ -16,7 +17,7 @@ R Call(const Napi::CallbackInfo& info, R (*f)(Args...),
     using TypeList = std::tuple<std::decay_t<Args>...>;
     try {
         return f(FetchInfoItem<Indices, TypeList>(info)...);
-    } catch (const MethodExecuteException& exc) {
+    } catch (const std::exception& exc) {
         throw Napi::Error::New(info.Env(), exc.what());
     } catch (...) {
         throw Napi::Error::New(info.Env(), "Unknow exception");
@@ -29,7 +30,7 @@ void Call(const Napi::CallbackInfo& info, void (*f)(Args...),
     using TypeList = std::tuple<std::decay_t<Args>...>;
     try {
         f(FetchInfoItem<Indices, TypeList>(info)...);
-    } catch (const MethodExecuteException& exc) {
+    } catch (const std::exception& exc) {
         throw Napi::Error::New(info.Env(), exc.what());
     } catch (...) {
         throw Napi::Error::New(info.Env(), "Unknow exception");
