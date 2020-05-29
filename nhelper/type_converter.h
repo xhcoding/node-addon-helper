@@ -243,7 +243,7 @@ public:
             }
         }
 
-        return false;
+        return true;
     }
 
     static std::vector<T> ToNativeValue(const Napi::Value& value) {
