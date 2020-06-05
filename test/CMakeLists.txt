@@ -24,3 +24,6 @@ set_target_properties(native_event_emitter PROPERTIES PREFIX "" SUFFIX ".node")
 
 add_library(create_sync_method SHARED create_sync_method.cpp ${CMAKE_JS_SRC})
 set_target_properties(create_sync_method PROPERTIES PREFIX "" SUFFIX ".node")
+
+add_library(module_raii SHARED module_raii.cpp ${CMAKE_JS_SRC})
+set_target_properties(module_raii PROPERTIES PREFIX "" SUFFIX ".node")
