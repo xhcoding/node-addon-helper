@@ -33,7 +33,7 @@ public:
     ~NativeEventTransponder();
 
 private:
-    Napi::Value Stop(const Napi::CallbackInfo& info);
+    Napi::Value Release(const Napi::CallbackInfo& info);
 
 private:
     static Napi::FunctionReference constructor;
@@ -51,7 +51,7 @@ Napi::Object NativeEventTransponder<T...>::Init(Napi::Env env,
     Napi::HandleScope scope(env);
     Napi::Function func =
             DefineClass(env, "NativeEventTransponder",
-                        {InstanceMethod("stop", &NativeEventTransponder<T...>::Stop)});
+                        {InstanceMethod("release", &NativeEventTransponder<T...>::Release)});
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
     exports.Set("NativeEventTransponder", func);
@@ -72,15 +72,14 @@ NativeEventTransponder<T...>::NativeEventTransponder(
 }
 
 template <typename... T>
-Napi::Value NativeEventTransponder<T...>::Stop(const Napi::CallbackInfo& info) {
-    auto status = tsfn_.Abort();
+Napi::Value NativeEventTransponder<T...>::Release(const Napi::CallbackInfo& info) {
+    tsfn_.Release();
     return Napi::Boolean::New(info.Env(), true);
 
 }
 
 template <typename... T>
 NativeEventTransponder<T...>::~NativeEventTransponder() {
-    tsfn_.Abort();
 }
 
 }  // namespace Nhelper
