@@ -19,6 +19,10 @@ if(MSVC)
     /utf-8
     /W4
     )
+else()
+  add_compile_options(
+    -Wall
+    )
 endif()
 
 # node-addon-api
