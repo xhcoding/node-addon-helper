@@ -1,13 +1,14 @@
 #pragma once
 
 #include <napi.h>
+
 #include <exception>
 
 #include "apply.h"
 #include "args_check.h"
 #include "fetch_info_item.h"
-#include "type_converter.h"
 #include "method_execute_exception.h"
+#include "type_converter.h"
 
 namespace Nhelper {
 
@@ -18,9 +19,9 @@ class ApiAsyncWorker : public Napi::AsyncWorker {
 public:
     ApiAsyncWorker(Napi::Env env, const Api& api, Args&&... args)
             : Napi::AsyncWorker(env),
-              deferred_(Napi::Promise::Deferred::New(env)),
               api_(api),
-              args_(args...) {}
+              args_(args...),
+              deferred_(Napi::Promise::Deferred::New(env)) {}
 
 public:
     Napi::Value Queue() {
@@ -50,9 +51,9 @@ protected:
 private:
     Api api_;
     std::tuple<Args...> args_;
-    Result result_;
-
     Napi::Promise::Deferred deferred_;
+
+    Result result_;
 };
 
 template <typename Api, typename... Args>
@@ -60,9 +61,9 @@ class ApiAsyncWorker<void, Api, Args...> : public Napi::AsyncWorker {
 public:
     ApiAsyncWorker(Napi::Env env, const Api& api, Args&&... args)
             : Napi::AsyncWorker(env),
-              deferred_(Napi::Promise::Deferred::New(env)),
               api_(api),
-              args_(args...) {}
+              args_(args...),
+              deferred_(Napi::Promise::Deferred::New(env)) {}
 
 public:
     Napi::Value Queue() {
@@ -92,7 +93,6 @@ protected:
 private:
     Api api_;
     std::tuple<Args...> args_;
-
     Napi::Promise::Deferred deferred_;
 };
 
@@ -122,20 +122,22 @@ auto& MakeWorker(const Napi::CallbackInfo& info, void (*f)(Args...),
 
 template <typename R, typename... Args>
 inline Napi::Value CreateAsyncWorker(const Napi::CallbackInfo& info,
-                               R (*f)(Args...)) {
+                                     R (*f)(Args...)) {
     constexpr size_t num_args = sizeof...(Args);
     CheckInfoLength(info, num_args);
     CheckInfoType<std::decay_t<Args>...>(info, 0, num_args);
-    return details::MakeWorker(info, f, std::make_index_sequence<num_args>()).Queue();
+    return details::MakeWorker(info, f, std::make_index_sequence<num_args>())
+            .Queue();
 }
 
 template <typename... Args>
 inline Napi::Value CreateAsyncWorker(const Napi::CallbackInfo& info,
-                               void (*f)(Args...)) {
+                                     void (*f)(Args...)) {
     constexpr size_t num_args = sizeof...(Args);
     CheckInfoLength(info, num_args);
     CheckInfoType<std::decay_t<Args>...>(info, 0, num_args);
-    return details::MakeWorker(info, f, std::make_index_sequence<num_args>()).Queue();
+    return details::MakeWorker(info, f, std::make_index_sequence<num_args>())
+            .Queue();
 }
 
 }  // namespace Nhelper
