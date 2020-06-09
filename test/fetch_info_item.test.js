@@ -1,5 +1,5 @@
 const assert = require("assert");
-const typeConverter = require("../build/bin/Release/fetch_info_item.node");
+const typeConverter = require("./binding")("fetch_info_item");
 
 describe(" fetch info item ", function() {
   it(" fetch info[1] is int32_t ", function() {

@@ -9,15 +9,16 @@ namespace Nhelper {
 
 namespace detail {
 
-template <typename First, typename Second, typename... Args>
-void ConstructNativeEventEmitter(Napi::ThreadSafeFunction* tsfn) {
-    NativeEventEmitter<First>::Set(tsfn);
-    ConstructNativeEventEmitter<Second, Args...>(tsfn);
-}
 
 template <typename Last>
 void ConstructNativeEventEmitter(Napi::ThreadSafeFunction* tsfn) {
     NativeEventEmitter<Last>::Set(tsfn);
+}
+
+template <typename First, typename Second, typename... Args>
+void ConstructNativeEventEmitter(Napi::ThreadSafeFunction* tsfn) {
+    NativeEventEmitter<First>::Set(tsfn);
+    ConstructNativeEventEmitter<Second, Args...>(tsfn);
 }
 
 }  // namespace detail
@@ -46,16 +47,10 @@ template <typename... T>
 Napi::FunctionReference NativeEventTransponder<T...>::constructor;
 
 template <typename... T>
-Napi::Object NativeEventTransponder<T...>::Init(Napi::Env env,
-                                                Napi::Object exports) {
-    Napi::HandleScope scope(env);
-    Napi::Function func =
-            DefineClass(env, "NativeEventTransponder",
-                        {InstanceMethod("release", &NativeEventTransponder<T...>::Release)});
-    constructor = Napi::Persistent(func);
-    constructor.SuppressDestruct();
-    exports.Set("NativeEventTransponder", func);
-    return exports;
+Napi::Value NativeEventTransponder<T...>::Release(
+        const Napi::CallbackInfo& info) {
+    tsfn_.Release();
+    return Napi::Boolean::New(info.Env(), true);
 }
 
 template <typename... T>
@@ -72,14 +67,20 @@ NativeEventTransponder<T...>::NativeEventTransponder(
 }
 
 template <typename... T>
-Napi::Value NativeEventTransponder<T...>::Release(const Napi::CallbackInfo& info) {
-    tsfn_.Release();
-    return Napi::Boolean::New(info.Env(), true);
-
+Napi::Object NativeEventTransponder<T...>::Init(Napi::Env env,
+                                                Napi::Object exports) {
+    Napi::HandleScope scope(env);
+    Napi::Function func = NativeEventTransponder<T...>::DefineClass(
+            env, "NativeEventTransponder",
+            {NativeEventTransponder<T...>::InstanceMethod(
+                    "release", &NativeEventTransponder<T...>::Release)});
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+    exports.Set("NativeEventTransponder", func);
+    return exports;
 }
 
 template <typename... T>
-NativeEventTransponder<T...>::~NativeEventTransponder() {
-}
+NativeEventTransponder<T...>::~NativeEventTransponder() {}
 
 }  // namespace Nhelper

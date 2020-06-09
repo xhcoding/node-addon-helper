@@ -1,5 +1,5 @@
 const assert = require("assert");
-const typeConverter = require("../build/bin/Release/type_converter.node");
+const typeConverter = require("./binding")("type_converter");
 
 describe(" type converter ", function() {
   it(" convert to bool ", function() {

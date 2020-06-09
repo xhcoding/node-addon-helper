@@ -1,5 +1,5 @@
 const assert = require("assert");
-const createAsyncWorker = require("../build/bin/Release/create_async_worker.node");
+const createAsyncWorker = require("./binding")("create_async_worker");
 
 describe(" create async worker ", function() {
   it(" create add worker", function(done) {

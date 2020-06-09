@@ -1,5 +1,5 @@
 const assert = require("assert");
-const typeConverter = require("../build/bin/Release/apply.node");
+const typeConverter = require("./binding")("apply");
 
 describe(" apply function ", function() {
   it(" apply Add ", function() {

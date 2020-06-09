@@ -1,5 +1,5 @@
 const assert = require("assert");
-const argsCheck = require("../build/bin/Release/args_check.node");
+const argsCheck = require("./binding")("args_check");
 
 describe(" check args length ", function() {
   it(" expect 4, actual 0", function() {

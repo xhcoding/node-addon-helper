@@ -1,7 +1,5 @@
 const assert = require("assert");
-const createSyncMethod = require("../build/bin/Release/create_sync_method.node");
-
-console.log(createSyncMethod)
+const createSyncMethod = require("./binding")("create_sync_method");
 
 describe(" create sync worker ", function() {
   it(" add method ", function() {

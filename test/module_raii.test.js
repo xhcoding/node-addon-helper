@@ -1,5 +1,5 @@
 const assert = require("assert");
-const module_raii = require("../build/bin/Debug/module_raii.node");
+const module_raii = require("./binding")("module_raii");
 
 
 describe (" module raii ", function() {

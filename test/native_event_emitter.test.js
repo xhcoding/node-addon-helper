@@ -1,5 +1,5 @@
 const assert = require("assert");
-const nativeEventEmitter = require("../build/bin/Release/native_event_emitter.node");
+const nativeEventEmitter = require("./binding")("native_event_emitter");
 
 const events = require("events");
 const emitter = new events.EventEmitter();
