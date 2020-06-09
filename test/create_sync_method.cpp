@@ -6,15 +6,14 @@ int add(int a, int b) {
     return a + b;
 }
 
-void test(const std::string& message, double b) {}
+void test(const std::string& /* message */, double /* b */) {}
 
 std::string concat(const std::string& str1, const std::string& str2) {
     return str1 + str2;
 }
 
-int addThrow(int a) {
+int addThrow(int /* a */) {
     throw Nhelper::MethodExecuteException("add Throw");
-    return 1;
 }
 
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {

@@ -60,12 +60,12 @@ inline void ModuleRAIIInit(Napi::Env env, Napi::Object exports,
                         env,
                         Napi::Function::New(
                                 env,
-                                [init_action](const Napi::CallbackInfo& info) {
+                                [init_action](const Napi::CallbackInfo& /* info */) {
                                     init_action();
                                 }),
                         Napi::Function::New(
                                 env, [deinit_action](
-                                             const Napi::CallbackInfo& info) {
+                                             const Napi::CallbackInfo& /* info */) {
                                     deinit_action();
                                 })));
 }

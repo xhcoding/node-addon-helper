@@ -9,7 +9,7 @@ std::thread native_thread;
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
     exports.Set(
             "start",
-            Napi::Function::New(env, [](const Napi::CallbackInfo& info) {
+            Napi::Function::New(env, [](const Napi::CallbackInfo& /* info */) {
                 native_thread = std::thread([]() {
                     Nhelper::NativeEventEmitter<int32_t>::Emit("send_int32_t",
                                                                100);

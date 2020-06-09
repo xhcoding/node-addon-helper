@@ -46,7 +46,7 @@ namespace details {
 
 template <typename... Args>
 struct CheckInfoTypeImpl {
-    static void Check(const Napi::CallbackInfo& info, size_t start_idx, size_t end_idx) {
+    static void Check(const Napi::CallbackInfo& /* info */, size_t /* start_idx */, size_t /* end_idx */) {
 
     }
 };
