@@ -38,13 +38,16 @@ private:
                               TypeConverter<T>::ToJSValue(env, event->data)});
             delete event;
         };
-        NativeEvent<T>* event = new NativeEvent<T>{name, data};
+
         if (!tsfn_) {
             return;
         }
+
+        NativeEvent<T>* event = new NativeEvent<T>{name, data};
+
         napi_status status = tsfn_->BlockingCall(event, callback);
         if (status != napi_ok) {
-            // TODO:
+            delete event;
         }
     }
 
