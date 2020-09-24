@@ -43,7 +43,7 @@ private:
             return;
         }
 
-        NativeEvent<T>* event = new NativeEvent<T>{name, data};
+        auto* event = new NativeEvent<T>{name, data};
 
         napi_status status = tsfn_->BlockingCall(event, callback);
         if (status != napi_ok) {
@@ -56,7 +56,7 @@ private:
 };
 
 template <typename T>
-NativeEventEmitter<T>::NativeEventEmitter() {}
+NativeEventEmitter<T>::NativeEventEmitter() = default;
 
 template <typename T>
 NativeEventEmitter<T>& NativeEventEmitter<T>::GetInstance() {

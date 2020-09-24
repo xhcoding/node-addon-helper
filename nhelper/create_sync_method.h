@@ -1,6 +1,7 @@
 #pragma once
 
 #include <napi.h>
+
 #include <exception>
 
 #include "args_check.h"

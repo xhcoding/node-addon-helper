@@ -81,6 +81,6 @@ Napi::Object NativeEventTransponder<T...>::Init(Napi::Env env,
 }
 
 template <typename... T>
-NativeEventTransponder<T...>::~NativeEventTransponder() {}
+NativeEventTransponder<T...>::~NativeEventTransponder() = default;
 
 }  // namespace Nhelper

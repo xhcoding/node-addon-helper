@@ -3,9 +3,10 @@
 #include <napi.h>
 
 #include <functional>
+#include <iostream>
 #include <string>
 #include <utility>
-#include <iostream>
+
 namespace Nhelper {
 
 namespace {
@@ -37,7 +38,7 @@ public:
         init_action_.Call({});
     }
 
-    ~ModuleRAII() {
+    ~ModuleRAII() override {
         Napi::HandleScope scope(Env());
         deinit_action_.Call({});
     }
@@ -55,19 +56,21 @@ inline void ModuleRAIIInit(Napi::Env env, Napi::Object exports,
                            const std::string& name,
                            ModuleRAII::InitAction init_action,
                            ModuleRAII::DeinitAction deinit_action) {
-    exports.Set(name,
-                ModuleRAII::NewInstance(
-                        env,
-                        Napi::Function::New(
-                                env,
-                                [init_action](const Napi::CallbackInfo& /* info */) {
-                                    init_action();
-                                }),
-                        Napi::Function::New(
-                                env, [deinit_action](
-                                             const Napi::CallbackInfo& /* info */) {
-                                    deinit_action();
-                                })));
+    exports.Set(
+            name,
+            ModuleRAII::NewInstance(
+                    env,
+                    Napi::Function::New(
+                            env,
+                            [init_action](
+                                    const Napi::CallbackInfo& /* info */) {
+                                init_action();
+                            }),
+                    Napi::Function::New(
+                            env, [deinit_action](
+                                         const Napi::CallbackInfo& /* info */) {
+                                deinit_action();
+                            })));
 }
 
 }  // namespace Nhelper

@@ -101,9 +101,8 @@ auto& MakeWorker(const Napi::CallbackInfo& info, R (*f)(Args...),
                  std::index_sequence<Indices...>) {
     using TypeList = std::tuple<std::decay_t<Args>...>;
 
-    ApiAsyncWorker<R, decltype(f), std::decay_t<Args>...>* worker =
-            new ApiAsyncWorker<R, decltype(f), std::decay_t<Args>...>(
-                    info.Env(), f, FetchInfoItem<Indices, TypeList>(info)...);
+    auto* worker = new ApiAsyncWorker<R, decltype(f), std::decay_t<Args>...>(
+            info.Env(), f, FetchInfoItem<Indices, TypeList>(info)...);
     return *worker;
 }
 
@@ -112,9 +111,8 @@ auto& MakeWorker(const Napi::CallbackInfo& info, void (*f)(Args...),
                  std::index_sequence<Indices...>) {
     using TypeList = std::tuple<std::decay_t<Args>...>;
 
-    ApiAsyncWorker<void, decltype(f), std::decay_t<Args>...>* worker =
-            new ApiAsyncWorker<void, decltype(f), std::decay_t<Args>...>(
-                    info.Env(), f, FetchInfoItem<Indices, TypeList>(info)...);
+    auto* worker = new ApiAsyncWorker<void, decltype(f), std::decay_t<Args>...>(
+            info.Env(), f, FetchInfoItem<Indices, TypeList>(info)...);
     return *worker;
 }
 

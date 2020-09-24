@@ -34,6 +34,9 @@ string(REPLACE "\n" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 string(REPLACE "\"" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 include_directories(${NODE_ADDON_API_DIR})
 
+# enable exceptions
+add_definitions(-DNAPI_CPP_EXCEPTIONS)
+
 # cmake-js
 include_directories(${CMAKE_JS_INC})
 link_libraries(${CMAKE_JS_LIB})
